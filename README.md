@@ -61,3 +61,5 @@ data/         prompt/role metadata and dataset placeholders
 ## Acknowledgements
 
 This implementation builds on the public DEEIA and PAIE codebases. Their papers and repositories should be cited when using this code. Citation information for LPG-EAE will be added after anonymous review.
+
+See [THIRD_PARTY.md](THIRD_PARTY.md) for third-party code, data, and licensing notes.
