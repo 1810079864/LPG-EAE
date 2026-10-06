@@ -4,4 +4,4 @@ This implementation was developed from the public DEEIA and PAIE research codeba
 
 The upstream repositories do not currently include an explicit software license. Consequently, this repository does not claim to relicense upstream code. Obtain permission from the respective copyright holders when required.
 
-Dataset files are not redistributed. RAMS, WikiEvents, MLEE, ACE05, RoBERTa, spaCy, FastCoref, and other dependencies remain subject to their respective licenses and terms of use. See `DATA.md` for the expected local file layout.
+Dataset files are not redistributed. RAMS, WikiEvents, RoBERTa, spaCy, FastCoref, and other dependencies remain subject to their respective licenses and terms of use. See `DATA.md` for the expected local file layout.

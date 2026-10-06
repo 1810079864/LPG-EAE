@@ -28,15 +28,13 @@ Place RoBERTa-large in `checkpoints/roberta-large/`, or pass another local path 
 
 ## Data
 
-Dataset files are not redistributed. Follow [DATA.md](DATA.md) and place the converted RAMS, WikiEvents, MLEE, and ACE05 files under `data/`. Prompt templates and role metadata are included.
+Dataset files are not redistributed. Follow [DATA.md](DATA.md) and place the converted RAMS and WikiEvents files under `data/`. Prompt templates and role metadata are included.
 
 ## Training
 
 ```bash
 MODEL_PATH=./checkpoints/roberta-large CUDA_VISIBLE_DEVICES=0 bash scripts/train_wikievent_roberta.sh
 MODEL_PATH=./checkpoints/roberta-large CUDA_VISIBLE_DEVICES=0 bash scripts/train_rams_roberta.sh
-MODEL_PATH=./checkpoints/roberta-large CUDA_VISIBLE_DEVICES=0 bash scripts/train_mlee_roberta.sh
-MODEL_PATH=./checkpoints/roberta-large GPU_ID=0 bash scripts/train_ace05_roberta.sh
 ```
 
 Module ablations:
