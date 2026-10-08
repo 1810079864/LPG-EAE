@@ -8,7 +8,8 @@ def get_args_parser():
     parser.add_argument("--model_name_or_path", default="roberta-large", type=str,
                         help="pre-trained language model")
     parser.add_argument("--dataset_type", default="rams", type=str,
-                        help="dataset type. Both sentence-level(ace_eeqa) and document-level(rams/wikievent)")
+                        choices=("rams", "wikievent"),
+                        help="dataset type: rams or wikievent")
     parser.add_argument("--role_path", default='./data/dset_meta/description_rams.csv', type=str,
                         help="a file containing all role names. Read it to access all argument roles of this dataset")
     parser.add_argument("--prompt_path", default='./data/prompts/prompts_rams_full.csv', type=str,

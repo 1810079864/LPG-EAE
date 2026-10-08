@@ -3,35 +3,17 @@ from .processor_multiarg import MultiargProcessor
 
 
 _DATASET_DIR = {
-    'ace_eeqa':{
-        "train_file": './data/ace_eeqa/train_convert.json',
-        "dev_file": './data/ace_eeqa/dev_convert.json', 
-        "test_file": './data/ace_eeqa/test_convert.json',
-        "max_span_num_file": "./data/dset_meta/role_num_ace.json",
-    },
-    'ace05':{
-        "train_file": './data/ace_eeqa/train_convert.json',
-        "dev_file": './data/ace_eeqa/dev_convert.json',
-        "test_file": './data/ace_eeqa/test_convert.json',
-        "max_span_num_file": "./data/dset_meta/role_num_ace.json",
-    },
-    'rams':{
+    "rams": {
         "train_file": './data/RAMS_1.0/data_final/train.jsonlines',
         "dev_file": './data/RAMS_1.0/data_final/dev.jsonlines',
         "test_file": './data/RAMS_1.0/data_final/test.jsonlines',
         "max_span_num_file": "./data/dset_meta/role_num_rams.json",
     },
-    "wikievent":{
+    "wikievent": {
         "train_file": './data/WikiEvent/data_final/train.jsonl',
         "dev_file": './data/WikiEvent/data_final/dev.jsonl',
         "test_file": './data/WikiEvent/data_final/test.jsonl',
         "max_span_num_file": "./data/dset_meta/role_num_wikievent.json",
-    },
-    "MLEE":{
-        "train_file": './data/MLEE/data_final/train_split.json',
-        "dev_file": './data/MLEE/data_final/dev.json',
-        "test_file": './data/MLEE/data_final/test.json',
-        "role_name_mapping": './data/MLEE/MLEE_role_name_mapping.json',
     },
 }
 
@@ -47,9 +29,6 @@ def build_processor(args, tokenizer):
     args.test_file = _DATASET_DIR[args.dataset_type]['test_file']
 
     args.role_name_mapping = None
-    if args.dataset_type == "MLEE":
-        with open(_DATASET_DIR[args.dataset_type]['role_name_mapping']) as f:
-            args.role_name_mapping = json.load(f)
 
     if args.model_type=="base":
         with open(_DATASET_DIR[args.dataset_type]['max_span_num_file']) as f:

@@ -355,7 +355,6 @@ class LPGEAE(RobertaPreTrainedModel):
         fuse_weight = float(getattr(self.config, 'gat_query_fuse_weight', 0.2))
         return prompt_query_sub + fuse_weight * trigger_orthogonal
 
-    @staticmethod
     def forward(
         self,
         all_ids=None,

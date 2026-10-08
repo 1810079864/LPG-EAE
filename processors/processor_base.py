@@ -381,14 +381,6 @@ class DSET_processor:
     def _read_roles(self, role_path):
         template_dict = {}
         role_dict     = {}
-        if 'MLEE' in role_path:
-            with open(role_path) as f:
-                role_name_mapping = json.load(f)
-                for event_type, mapping in role_name_mapping.items():
-                    roles = list(mapping.keys())
-                    role_dict[event_type] = roles
-            return None, role_dict
-
         with open(role_path, "r", encoding='utf-8') as f:
             csv_reader = csv.reader(f)
             for line in csv_reader:
@@ -485,72 +477,11 @@ class DSET_processor:
             len(examples), self.invalid_arg_num))
         return examples
 
-    def _create_example_ace05(self, lines):
-        """Convert PAIE-style ACE05 sentences into the shared Events format.
-
-        Input offsets are document-level and inclusive; the shared format uses
-        sentence-relative, end-exclusive spans.
-        """
-        normalized = []
-        for doc_idx, line in enumerate(lines):
-            raw_events = line.get('event', [])
-            if not raw_events:
-                continue
-            context = list(line['sentence'])
-            offset = int(line.get('s_start', 0))
-            events = []
-            for raw_event in raw_events:
-                if not raw_event:
-                    continue
-                trigger_info = raw_event[0]
-                trigger_start = int(trigger_info[0]) - offset
-                if not 0 <= trigger_start < len(context):
-                    raise ValueError(
-                        'ACE05 trigger offset is outside its sentence: '
-                        f'doc={doc_idx}, trigger={trigger_info}, offset={offset}'
-                    )
-                event_type = str(trigger_info[1]).replace(':', '.')
-                trigger_end = trigger_start + 1
-                args = []
-                for arg_info in raw_event[1:]:
-                    start = int(arg_info[0]) - offset
-                    end = int(arg_info[1]) - offset + 1
-                    role = str(arg_info[2])
-                    if start < 0 or end > len(context) or start >= end:
-                        self.invalid_arg_num += 1
-                        continue
-                    args.append([
-                        start,
-                        end,
-                        ' '.join(context[start:end]),
-                        role,
-                    ])
-                events.append({
-                    'event_type': event_type,
-                    'trigger': [
-                        trigger_start,
-                        trigger_end,
-                        ' '.join(context[trigger_start:trigger_end]),
-                    ],
-                    'args': args,
-                })
-            if events:
-                normalized.append({
-                    'id': str(line.get('id', doc_idx)),
-                    'context': context,
-                    'events': events,
-                    'token_chunk_ids': [0] * len(context),
-                })
-        return self._create_example(normalized, over_sample=None)
 
     def create_example(self, file_path, set_type):
         self.invalid_arg_num = 0
         lines = self._read_jsonlines(file_path)
-        if self.args.dataset_type in ('ace05', 'ace_eeqa'):
-            return self._create_example_ace05(lines)
-        elif self.args.dataset_type == 'MLEE':
-            return self._create_example(lines, over_sample=None)
-        elif self.args.dataset_type == 'rams':
+        if self.args.dataset_type == 'rams':
             return self._create_example(
                 lines, over_sample=('power' if set_type == 'train' else None)
             )
